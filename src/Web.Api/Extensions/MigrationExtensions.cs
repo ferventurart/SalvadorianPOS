@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Web.Api.Database;
+﻿using Infrastructure.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace Web.Api.Extensions;
 
@@ -9,8 +9,8 @@ public static class MigrationExtensions
     {
         using IServiceScope scope = app.ApplicationServices.CreateScope();
 
-        using ApplicationDbContext dbContext =
-            scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        using ApplicationWriteDbContext dbContext =
+            scope.ServiceProvider.GetRequiredService<ApplicationWriteDbContext>();
 
         dbContext.Database.Migrate();
     }
