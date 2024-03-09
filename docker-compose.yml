@@ -1,14 +1,14 @@
 version: '3.4'
 
 services:
-  salvadorianpos-api:
-    image: ${DOCKER_REGISTRY-}webapi
-    container_name: salvadorianpos.api
+  salvadorianpos-web:
+    image: ${DOCKER_REGISTRY-}web
+    container_name: salvadorianpos.web
     build:
       context: .
-      dockerfile: src/Web.Api/Dockerfile
+      dockerfile: src/Web/Dockerfile
     ports:
-      - 6000:6000
+      - 5323:5323
 
   salvadorianpos-database:
     image: postgres:latest
