@@ -1,5 +1,5 @@
 
-# Salvadorian POS
+# Salvadorian POS ![alt text](https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Flag_of_El_Salvador.svg/1200px-Flag_of_El_Salvador.svg.png)
 
 Con SalvadorianPOS podras unirte a la facturacion electronica de El Salvador de manera simple.
 
