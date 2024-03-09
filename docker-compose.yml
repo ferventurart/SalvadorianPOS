@@ -1,0 +1,39 @@
+version: '3.4'
+
+services:
+  salvadorianpos-api:
+    image: ${DOCKER_REGISTRY-}webapi
+    container_name: salvadorianpos.api
+    build:
+      context: .
+      dockerfile: src/Web.Api/Dockerfile
+    ports:
+      - 6000:6000
+
+  salvadorianpos-database:
+    image: postgres:latest
+    container_name: salvadorianpos.database
+    environment:
+      - POSTGRES_DB=salvadorianpos
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./.containers/db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  salvadorianpos-seq:
+    image: datalust/seq:latest
+    container_name: salvadorianpos.seq
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - 5341:5341
+      - 8081:80
+
+  salvadorianpos-redis:
+    image: redis:latest
+    container_name: salvadorianpos.redis
+    restart: always
+    ports:
+      - '6379:6379'
