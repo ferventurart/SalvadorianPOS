@@ -7,9 +7,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3164A16D-E45
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{577AAB47-8EEC-4F64-92B5-EB40950D4B46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Api", "src\Web.Api\Web.Api.csproj", "{00B425B3-C003-46AC-A739-581135FDC215}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web.Api", "src\Web.Api\Web.Api.csproj", "{00B425B3-C003-46AC-A739-581135FDC215}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel", "src\SharedKernel\SharedKernel.csproj", "{3D469ADA-8397-476C-B2A5-568BDAD2769B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel", "src\SharedKernel\SharedKernel.csproj", "{3D469ADA-8397-476C-B2A5-568BDAD2769B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
