@@ -1,7 +1,7 @@
 
 # Salvadorian POS
 
-Con Salvadorian POS podras unirte a la facturacion electronica de El Salvador de manera simple.
+Con SalvadorianPOS podras unirte a la facturacion electronica de El Salvador de manera simple.
 
 SalvadorianPOS es un proyecto con licencia MIT creado con .NET 8 y C# que le permite a los usuarios llevar un control basico del catalogo de sus productos y tambien introducirse al proceso de facturacion electronica de manera eficaz y simple.
 
