@@ -3,7 +3,7 @@ version: '3.4'
 services:
   salvadorianpos-web:
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_HTTP_PORTS=5323
     ports:
       - "5323"

@@ -1,0 +1,156 @@
+@using Application.StoreDepartments
+@using Application
+@using Application.StoreDepartments.GetStoreDepartments
+@using Web.Components.Models.Shared
+
+@if (_storeDepartments is null)
+{
+    <Loader/>
+}
+else
+{
+    <div class="d-flex justify-content-between mt-3">
+        <div class="mb-3">
+            <div class="d-flex align-items-center">
+                <label for="select-page-size" class="me-2">Mostrar:</label>
+                <select id="select-page-size" class="form-select form-select-sm" @onchange="On_pageSizeChange">
+                    @foreach (var pageSize in _pageSizes)
+                    {
+                        <option selected="@(pageSize == _pageSize)" value="@pageSize">@pageSize</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="mb-3">
+            <div class="input-group">
+                <input type="text" class="form-control form-control-sm" id="input-filter-table" placeholder="Buscar..." 
+                       @onchange="OnSearchTermChange"/>
+                <span class="input-group-text" id="input-filter-table">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <caption>@_labelCaption</caption>
+            <thead class="table-light">
+            <tr>
+                <th class="text-start">Nombre</th>
+                <th class="text-start">Estado</th>
+            </tr>
+            </thead>
+            <tbody>
+            @if (_storeDepartments.Items.Count == 0)
+            {
+                <tr>
+                    <td colspan="2" class="fw-light text-center text-wrap">No hay registros</td>
+                </tr>
+            }
+            @foreach (var storeDepartment in _storeDepartments!.Items)
+            {
+                <tr>
+                    <td>@storeDepartment.Name</td>
+                    <td>
+                        @if (storeDepartment.Active)
+                        {
+                            <span class="badge rounded-pill text-bg-success">Activo</span>
+                        }
+                        @if (!storeDepartment.Active)
+                        {
+                            <span class="badge rounded-pill text-bg-secondary">Inactivo</span>
+                        }
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    <Pagination
+        CurrentPage="@_page"
+        PageSize="@_pageSize"
+        TotalRecords="@_totalRecords"
+        HasNextPage="@_hasNextPage"
+        HasPreviousPage="@_hasPreviousPage"
+        PageChange="OnPageNumberChange">
+    </Pagination>
+}
+
+@code {
+
+    private readonly List<int> _pageSizes = [2, 5, 10, 25, 50, 100];
+    private string? _searchTerm;
+    private int _page = PaginationDefault.Page;
+    private int _pageSize = PaginationDefault.PageSize;
+    private int _totalRecords;
+    private bool _hasNextPage;
+    private bool _hasPreviousPage;
+    private PagedList<StoreDepartmentResponse>? _storeDepartments;
+    private string? _labelCaption;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        _storeDepartments = null;
+        var query = new GetStoreDepartmentsQuery(
+            _searchTerm,
+            string.Empty,
+            string.Empty,
+            _page,
+            _pageSize);
+
+        var result = await Sender.Send(query).ConfigureAwait(false);
+
+        if (result.IsSuccess)
+        {
+            _storeDepartments = result.Value;
+            _storeDepartments = result.Value;
+            _totalRecords = result.Value.TotalCount;
+            _page = result.Value.Page;
+            _pageSize = result.Value.PageSize;
+            _hasNextPage = result.Value.HasNextPage;
+            _hasPreviousPage = result.Value.HasPreviousPage;
+        }
+
+        GenerateCaption();
+    }
+
+    async void On_pageSizeChange(ChangeEventArgs eventArgs)
+    {
+        _page = PaginationDefault.Page;
+        _pageSize = Convert.ToInt32(eventArgs.Value!);
+        await LoadData();
+        StateHasChanged();
+    }
+
+    async void OnSearchTermChange(ChangeEventArgs eventArgs)
+    { 
+        _searchTerm = eventArgs.Value!.ToString();
+        await LoadData();
+        StateHasChanged();
+    }
+
+    async void OnPageNumberChange(int page)
+    {
+        _page = page;
+        await LoadData();
+        StateHasChanged();
+    }
+
+    private void GenerateCaption()
+    {
+        var startIndex = (_page - 1) * _pageSize + 1;
+        var endIndex = Math.Min(_page * _pageSize, _totalRecords);
+        if (startIndex is 0 || endIndex is 0)
+        {
+            _labelCaption = string.Empty;
+        }
+
+        _labelCaption = $"Mostrando registros del {startIndex} al {endIndex} de un total de {_totalRecords} registros";
+    }
+
+}

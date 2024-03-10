@@ -1,4 +1,5 @@
 ﻿using Application.Abstractions.Data;
+using Domain.StoreDepartments;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Database;
@@ -6,6 +7,8 @@ namespace Infrastructure.Database;
 public sealed class ApplicationWriteDbContext(DbContextOptions<ApplicationWriteDbContext> options)
     : DbContext(options), IUnitOfWork
 {
+    public DbSet<StoreDepartment> StoreDepartments { get; set; }
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(

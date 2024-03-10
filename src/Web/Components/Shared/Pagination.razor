@@ -1,0 +1,62 @@
+@using Web.Components.Models.Shared
+<nav aria-label="pagination" class="float-end">
+    <ul class="pagination justify-content-center">
+        <li class="page-item @(HasPreviousPage ? "" : "disabled")">
+            <a class="page-link" href="javascript:" @onclick="() => PageChange.InvokeAsync(CurrentPage - 1)">
+                <i class="fa-solid fa-chevron-left"></i>
+            </a>
+        </li>
+        @if (TotalPages <= BlockSize)
+        {
+            @for (var i = 1; i <= TotalPages; i++)
+            {
+                var pageNumber = i;
+                <li class="page-item @(CurrentPage == pageNumber ? "active" : "")">
+                    <a class="page-link" href="javascript:" @onclick="() => PageChange.InvokeAsync(pageNumber)">@pageNumber</a>
+                </li>
+            }
+        }
+        else
+        {
+            var startPage = CurrentPage - BlockSize / 2;
+            var endPage = CurrentPage + BlockSize / 2;
+
+            if (startPage < 1)
+            {
+                startPage = 1;
+                endPage = BlockSize;
+            }
+
+            if (endPage > TotalPages)
+            {
+                endPage = TotalPages;
+                startPage = TotalPages - BlockSize + 1;
+            }
+            for (var i = startPage; i <= endPage; i++)
+            {
+                var pageNumber = i;
+                <li class="page-item @(CurrentPage == pageNumber ? "active" : "")">
+                    <a class="page-link" href="javascript:" @onclick="() => PageChange.InvokeAsync(pageNumber)">@pageNumber</a>
+                </li>
+            }
+        }
+        
+        <li class="page-item @(HasNextPage ? "" : "disabled")">
+            <a class="page-link" href="javascript:" @onclick="() => PageChange.InvokeAsync(CurrentPage + 1)">
+                <i class="fa-solid fa-chevron-right"></i>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+@code {
+    [Parameter] public int CurrentPage { get; set; }
+    [Parameter] public int PageSize { get; set; }
+    [Parameter] public int TotalRecords { get; set; }
+    [Parameter] public bool HasNextPage { get; set; }
+    [Parameter] public bool HasPreviousPage { get; set; }
+    [Parameter] public EventCallback<int> PageChange { get; set; }
+    
+    private int TotalPages => (int)Math.Ceiling((double)TotalRecords / PageSize);
+    private int BlockSize => PaginationDefault.BlockSize;
+}

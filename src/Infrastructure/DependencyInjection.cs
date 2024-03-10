@@ -1,11 +1,13 @@
 ﻿using Application.Abstractions.Caching;
 using Application.Abstractions.Data;
 using Application.Abstractions.Notifications;
+using Domain.StoreDepartments;
 using Infrastructure.Caching;
 using Infrastructure.Database;
 using Infrastructure.Health;
 using Infrastructure.Notifications;
 using Infrastructure.Outbox;
+using Infrastructure.Repositories;
 using Infrastructure.Time;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -50,7 +52,11 @@ public static class DependencyInjection
 
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationWriteDbContext>());
         
-        services.AddTransient<INotificationService, NotificationService>();
+        services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationWriteDbContext>());
+        
+        services.AddScoped<IApplicationDbContext>(sp => sp.GetRequiredService<ApplicationReadDbContext>());
+        
+        services.AddTransient<IStoreDepartmentRepository, StoreDepartmentRepository>();
 
         string redisConnectionString = configuration.GetConnectionString("Cache")!;
 
