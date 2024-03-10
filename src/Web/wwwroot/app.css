@@ -3,5 +3,11 @@
 /* Not required for template or sticky footer method. */
 
 main > .container {
-    padding: 75px 20px 0;
+    padding: 60px 8px 0;
+}
+
+@media screen and (max-width: 575px) {
+    main > .container {
+        padding: 60px 12px 0;
+    }
 }

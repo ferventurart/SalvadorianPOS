@@ -1,36 +1,47 @@
 <!-- Fixed navbar -->
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+<nav class="navbar navbar-expand-lg bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Flag_of_El_Salvador.svg/52px-Flag_of_El_Salvador.svg.png" class="d-inline-block align-text-top" alt="">
-        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+        <a class="navbar-brand" href="#">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Flag_of_El_Salvador.svg/52px-Flag_of_El_Salvador.svg.png" class="d-inline-block align-text-top" alt="">
+        </a>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#"><i class="fa-solid fa-house"></i> Inicio</a>
+                    <NavLink class="nav-link" ActiveClass="active" href="/" Match="@NavLinkMatch.All">
+                        <i class="fa-solid fa-house"></i> Inicio
+                    </NavLink>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fa-solid fa-store"></i> Sucursales</a>
+                    <NavLink class="nav-link" ActiveClass="active" href="/products" Match="@NavLinkMatch.All">
+                        <i class="fa-solid fa-box-open"></i> Productos
+                    </NavLink>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="javascript:;" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-box-open"></i> Catalogo de Productos
+                    <a class="nav-link dropdown-toggle" href="javascript:" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-shop"></i>&nbsp;Mi Tienda
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <NavLink class="dropdown-item" Match="NavLinkMatch.All" ActiveClass="active" href="/catalog/store-departments">Departamentos</NavLink>
+                            <NavLink class="dropdown-item" Match="@NavLinkMatch.All" ActiveClass="active" href="/my-store/information">Informacion</NavLink>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="#">Categorias</a>
+                            <NavLink class="dropdown-item" Match="@NavLinkMatch.All" ActiveClass="active" href="/my-store/branches">Sucursales</NavLink>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="javascript:" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-sliders"></i> Configuraciones
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <NavLink class="dropdown-item" Match="@NavLinkMatch.All" ActiveClass="active" href="/settings/store-departments">Departamentos</NavLink>
                         </li>
                         <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="#">Productos</a>
+                            <NavLink class="dropdown-item" Match="@NavLinkMatch.All" ActiveClass="active" href="/settings/product-categories"> Categorias de Producto</NavLink>
                         </li>
                     </ul>
                 </li>

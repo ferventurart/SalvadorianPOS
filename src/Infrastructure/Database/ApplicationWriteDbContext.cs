@@ -17,5 +17,5 @@ public sealed class ApplicationWriteDbContext(DbContextOptions<ApplicationWriteD
     }
 
     private static bool WriteConfigurationsFilter(Type type) =>
-        type.FullName?.Contains("Configurations.Write") ?? false;
+        type.FullName?.Contains("Settings.Write") ?? false;
 }

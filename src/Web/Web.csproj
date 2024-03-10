@@ -31,4 +31,13 @@
       <_ContentIncludedByDefault Remove="wwwroot\bootstrap\bootstrap.min.css.map" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Components\Pages\Catalog\" />
+      <Folder Include="Components\Pages\Settings\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Include="Components\Pages\Settings\StoreDepartments\Index.razor" />
+    </ItemGroup>
+
 </Project>
