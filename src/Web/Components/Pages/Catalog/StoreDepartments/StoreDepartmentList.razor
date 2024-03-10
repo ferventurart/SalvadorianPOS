@@ -24,7 +24,8 @@ else
         <div class="mb-3">
             <div class="input-group">
                 <input type="text" class="form-control form-control-sm" id="input-filter-table" placeholder="Buscar..." 
-                       @onchange="OnSearchTermChange"/>
+                       @onchange="OnSearchTermChange"
+                       value="@_searchTerm"/>
                 <span class="input-group-text" id="input-filter-table">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </span>
@@ -95,7 +96,6 @@ else
 
     private async Task LoadData()
     {
-        _storeDepartments = null;
         var query = new GetStoreDepartmentsQuery(
             _searchTerm,
             string.Empty,
