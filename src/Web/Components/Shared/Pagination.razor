@@ -2,49 +2,22 @@
 <nav aria-label="pagination" class="float-end">
     <ul class="pagination justify-content-center">
         <li class="page-item @(HasPreviousPage ? "" : "disabled")">
-            <a class="page-link" href="javascript:" @onclick="() => PageChange.InvokeAsync(CurrentPage - 1)">
+            <button class="page-link" @onclick="() => PageChange.InvokeAsync(CurrentPage - 1)">
                 <i class="fa-solid fa-chevron-left"></i>
-            </a>
+            </button>
         </li>
-        @if (TotalPages <= BlockSize)
+    
+        @foreach(var pageNumber in GetVisiblePages())
         {
-            @for (var i = 1; i <= TotalPages; i++)
-            {
-                var pageNumber = i;
-                <li class="page-item @(CurrentPage == pageNumber ? "active" : "")">
-                    <a class="page-link" href="javascript:" @onclick="() => PageChange.InvokeAsync(pageNumber)">@pageNumber</a>
-                </li>
-            }
-        }
-        else
-        {
-            var startPage = CurrentPage - BlockSize / 2;
-            var endPage = CurrentPage + BlockSize / 2;
-
-            if (startPage < 1)
-            {
-                startPage = 1;
-                endPage = BlockSize;
-            }
-
-            if (endPage > TotalPages)
-            {
-                endPage = TotalPages;
-                startPage = TotalPages - BlockSize + 1;
-            }
-            for (var i = startPage; i <= endPage; i++)
-            {
-                var pageNumber = i;
-                <li class="page-item @(CurrentPage == pageNumber ? "active" : "")">
-                    <a class="page-link" href="javascript:" @onclick="() => PageChange.InvokeAsync(pageNumber)">@pageNumber</a>
-                </li>
-            }
+            <li class="@(CurrentPage == pageNumber ? "page-item active" : "page-item")">
+                <button class="page-link" @onclick="() => PageChange.InvokeAsync(pageNumber)">@pageNumber</button>
+            </li>
         }
         
         <li class="page-item @(HasNextPage ? "" : "disabled")">
-            <a class="page-link" href="javascript:" @onclick="() => PageChange.InvokeAsync(CurrentPage + 1)">
+            <button class="page-link" @onclick="() => PageChange.InvokeAsync(CurrentPage + 1)">
                 <i class="fa-solid fa-chevron-right"></i>
-            </a>
+            </button>       
         </li>
     </ul>
 </nav>
@@ -57,6 +30,37 @@
     [Parameter] public bool HasPreviousPage { get; set; }
     [Parameter] public EventCallback<int> PageChange { get; set; }
     
-    private int TotalPages => (int)Math.Ceiling((double)TotalRecords / PageSize);
-    private int BlockSize => PaginationDefault.BlockSize;
+    private IEnumerable<int> Pages => Enumerable.Range(1, TotalPages);
+    private int TotalPages => (int)Math.Ceiling(Convert.ToDouble(TotalRecords) / PageSize);
+
+    private IEnumerable<int> GetVisiblePages()
+    {
+        var startPage = CurrentPage - PaginationDefault.BlockSize / 2;
+        if(startPage < 1)
+        {
+            startPage = 1;
+        }
+        
+        var lastPage = startPage + PaginationDefault.BlockSize - 1;
+        if (lastPage > TotalPages)
+        {
+            lastPage = TotalPages;
+        }
+
+        if (lastPage - startPage < PaginationDefault.BlockSize - 1)
+        {
+            startPage = lastPage - (PaginationDefault.BlockSize - 1);
+            startPage = startPage < 1 ? 1 : startPage;
+        }
+
+        if (lastPage - startPage > PaginationDefault.BlockSize - 1)
+        {
+            lastPage = startPage + (PaginationDefault.BlockSize - 1);
+        }
+        
+        for (var i = startPage; i <= lastPage; i++)
+        {
+            yield return i;
+        }
+    }
 }
